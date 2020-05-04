@@ -19,7 +19,15 @@
     <dt>MRP:</dt>
     <dd>Rs. {{ book.mrp }}</dd>
     <dt>Available Copies:</dt>
-    <dd>{{ num_available }}</dd>
+	<dd>{{ num_available }}</dd>
+	{% if user.is_authenticated %}
+		<dt>Rate Book:</dt>
+		<dd>
+		<input id="rating" type="number" min="0" max="10" value="{{ book.rating }}">
+		<button class="btn btn-primary" id= "rate-button" onclick="rateBook({{ book.id }})">Rate {{ book.title }}</button>
+		</dd>
+		
+    {% endif %}
 </dl>
 <button class="btn btn-primary" id="loan-button">Loan {{ book.title }}</button>
 <script>
@@ -40,10 +48,35 @@ $("#loan-button").click(function(){
 			}
 		},
 		error: function(xhr, status, err){
-			alert("Some error occured");
+			alert("Some error occured,it seems you are not logged in!");
 		}
 
 	})
 })
+
+function rateBook(bid){
+	const rating = document.getElementById("rating").value
+	$.ajax({
+		url: "{% url 'rate-book'%}",
+		method:"POST",
+		data:{
+			bid: bid,
+			rating:rating,
+		},
+		success: function(data, status, xhr){
+			if(data['message']=="success"){
+				location.reload();
+				alert('Thanks for update!');
+			}
+			else{
+				var msg = data['message'];
+				alert(msg);
+			}
+		},
+		error: function(xhr, status, err){
+			alert('Some error occured while updating the book!');
+		}
+	})
+}
 </script>
 {% endblock %}

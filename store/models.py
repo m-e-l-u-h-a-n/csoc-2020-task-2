@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from jsonfield import JSONField
 # Create your models here.
 
 class Book(models.Model):
@@ -9,13 +10,19 @@ class Book(models.Model):
     description = models.TextField(null=True)
     mrp = models.PositiveIntegerField()
     rating = models.FloatField(default=0.0)
-
     class Meta:
         ordering = ('title',)
 
     def __str__(self):
         return f'{self.title} by {self.author}'
 
+class BookRating(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    rate = models.FloatField(default=0.0)
+    user = models.ForeignKey(User,null=True,blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f'{self.book}'
 
 class BookCopy(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -23,7 +30,6 @@ class BookCopy(models.Model):
     # True status means that the copy is available for issue, False means unavailable
     status = models.BooleanField(default=False)
     borrower = models.ForeignKey(User, related_name='borrower', null=True, blank=True, on_delete=models.SET_NULL)
-
     def __str__(self):
         if self.borrow_date:
             return f'{self.book.title}, {str(self.borrow_date)}'

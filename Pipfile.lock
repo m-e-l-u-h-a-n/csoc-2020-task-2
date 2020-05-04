@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f84436db95f07d008305f5a7e22b1be7aebe13aaeed8bfc8773828914b734cdc"
+            "sha256": "1a6e57612155c53a2607fe199d4fd9054185c938cb8562a31dc6f62e3242dbff"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.8"
+            "python_version": "3.6"
         },
         "sources": [
             {
@@ -54,6 +54,14 @@
             ],
             "index": "pypi",
             "version": "==20.0.4"
+        },
+        "jsonfield": {
+            "hashes": [
+                "sha256:7e4e84597de21eeaeeaaa7cc5da08c61c48a9b64d0c446b2d71255d01812887a",
+                "sha256:df857811587f252b97bafba42e02805e70a398a7a47870bc6358a0308dd689ed"
+            ],
+            "index": "pypi",
+            "version": "==3.1.0"
         },
         "psycopg2": {
             "hashes": [
