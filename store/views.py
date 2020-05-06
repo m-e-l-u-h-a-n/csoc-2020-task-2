@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.shortcuts import get_object_or_404
 from store.models import *
 from django.contrib.auth.decorators import login_required
@@ -7,12 +7,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import datetime
 from decimal import Decimal
+from django.views.decorators.cache import cache_control
 
 # Create your views here.
 
 def index(request):
     return render(request, 'store/index.html')
-
+@cache_control(must_revalidate=True,no_store=True)
 def bookDetailView(request, bid):
     template_name = 'store/book_detail.html'
     try:
@@ -49,7 +50,7 @@ def bookListView(request):
     
     
     return render(request, template_name, context=context)
-
+#@cache_control(must_revalidate=True,no_store=True)
 @login_required
 def viewLoanedBooks(request):
     template_name = 'store/loaned_books.html'
